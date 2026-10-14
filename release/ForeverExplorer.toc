@@ -2,7 +2,7 @@
 ## Title: Forever Explorer
 ## Notes: Guide de leveling et explorateur pour WoW Forever
 ## Author: nightlessgamer-tech
-## Version: 0.3.0
+## Version: 0.3.1
 ## SavedVariables: ForeverExplorerDB
 
 Data\Data.lua

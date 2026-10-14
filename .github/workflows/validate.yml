@@ -1,0 +1,26 @@
+name: Validate addon package
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate manifest and packaged files
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root = Path("release")
+          manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
+          assert manifest.get("version"), "version missing"
+          assert manifest.get("interface") == 16001, "unexpected interface version"
+          for name in manifest.get("files", []):
+              path = root / name
+              assert path.is_file(), f"missing packaged file: {name}"
+              assert path.stat().st_size > 0, f"empty packaged file: {name}"
+          print(f"Validated Forever Explorer {manifest['version']}")
+          PY

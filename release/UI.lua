@@ -12,8 +12,11 @@ function FE:BuildUI()
     f:RegisterForDrag("LeftButton")
     f:SetScript("OnDragStart", f.StartMoving)
     f:SetScript("OnDragStop", f.StopMovingOrSizing)
-    f:SetBackdrop({ bgFile = "Interface/Tooltips/UI-Tooltip-Background", edgeFile = "Interface/Tooltips/UI-Tooltip-Border", tile = true, tileSize = 16, edgeSize = 16, insets = { left = 4, right = 4, top = 4, bottom = 4 } })
-    f:SetBackdropColor(0.04, 0.06, 0.09, 0.96)
+    -- Some older WoW Forever clients do not expose the Backdrop API on frames.
+    if f.SetBackdrop then
+        f:SetBackdrop({ bgFile = "Interface/Tooltips/UI-Tooltip-Background", edgeFile = "Interface/Tooltips/UI-Tooltip-Border", tile = true, tileSize = 16, edgeSize = 16, insets = { left = 4, right = 4, top = 4, bottom = 4 } })
+        if f.SetBackdropColor then f:SetBackdropColor(0.04, 0.06, 0.09, 0.96) end
+    end
 
     local title = f:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", f, "TOPLEFT", 16, -14)
@@ -27,7 +30,7 @@ function FE:BuildUI()
     body:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -18, 58)
     body:SetJustifyH("LEFT")
     body:SetJustifyV("TOP")
-    body:SetNonSpaceWrap(true)
+    if body.SetNonSpaceWrap then body:SetNonSpaceWrap(true) end
     self.body = body
 
     local function Button(text, x, action)

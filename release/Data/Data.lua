@@ -12,7 +12,7 @@ ForeverExplorerData = {
         { name = "Loch Modan", level = "10–20", note = "Zone de progression naine et gnome." },
         { name = "Les Paluns", level = "20–30", note = "Niveaux et accès à confirmer selon le serveur." },
         { name = "Contreforts de Hautebrande", level = "20–30", note = "Vérifie les ennemis et les prérequis en jeu." },
-        { name = "Forêt des Pins-Argentés", level = "20–30", note = "Zone principalement Horde ; répertoriée pour repérer les frontières de faction." },
+        { name = "Montagnes d'Alterac", level = "30–40", uncertain = true, note = "Données indicatives au-delà du niveau 30." },
         { name = "Hautes-terres Arathies", level = "30–40", uncertain = true, note = "Données indicatives au-delà du niveau 30." },
         { name = "Strangleronce", level = "30–45", uncertain = true, note = "Données indicatives au-delà du niveau 30." },
         { name = "Terres foudroyées", level = "45–55", uncertain = true, note = "Données indicatives au-delà du niveau 30." },

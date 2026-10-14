@@ -1,0 +1,10 @@
+{
+  "version": "0.3.0",
+  "interface": 16001,
+  "files": [
+    "ForeverExplorer.toc",
+    "Core.lua",
+    "UI.lua",
+    "Data/Data.lua"
+  ]
+}

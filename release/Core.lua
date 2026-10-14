@@ -67,6 +67,22 @@ function FE:MarkCurrentZoneDone()
     if self.Refresh then self:Refresh() end
 end
 
+function FE:MoveZoneSelection(delta)
+    local zones = GetZones()
+    if #zones == 0 then return end
+    local query = self.searchBox and string.lower(self.searchBox:GetText() or "") or ""
+    local matches = {}
+    for _, zone in ipairs(zones) do
+        if query == "" or string.find(string.lower(zone.name), query, 1, true) then matches[#matches + 1] = zone.name end
+    end
+    if #matches == 0 then self.currentZoneName = nil; if self.Refresh then self:Refresh() end; return end
+    local current = 1
+    for i, name in ipairs(matches) do if name == self.currentZoneName then current = i; break end end
+    current = ((current - 1 + (tonumber(delta) or 0)) % #matches) + 1
+    self.currentZoneName = matches[current]
+    if self.Refresh then self:Refresh() end
+end
+
 function FE:ResetProgress()
     local db = EnsureDB()
     db.completed = {}
@@ -107,6 +123,10 @@ SlashCmdList["FOREVEREXPLORER"] = function(msg)
         FE:MarkDone()
     elseif msg == "status" then
         FE:ShowStatus()
+    elseif msg == "zone next" then
+        FE:MoveZoneSelection(1)
+    elseif msg == "zone prev" then
+        FE:MoveZoneSelection(-1)
     elseif msg == "zones" then
         FE:SetView("zones")
         FE:Show()
@@ -129,5 +149,5 @@ loader:RegisterEvent("PLAYER_LOGIN")
 loader:SetScript("OnEvent", function()
     EnsureDB()
     if FE.BuildUI then FE:BuildUI() end
-    Print("version 0.4.0 chargée. /fe ouvre le guide, /fe zones ouvre l'explorateur, /fe reset réinitialise la progression.")
+    Print("version 0.5.0 chargée. /fe ouvre le guide, /fe zones ouvre l'explorateur, /fe reset réinitialise la progression.")
 end)

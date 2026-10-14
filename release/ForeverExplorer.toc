@@ -5,6 +5,6 @@
 ## Version: 0.4.0
 ## SavedVariables: ForeverExplorerDB
 
-Data\\Data.lua
+Data\Data.lua
 Core.lua
 UI.lua

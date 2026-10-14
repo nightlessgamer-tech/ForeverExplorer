@@ -1,7 +1,27 @@
 ForeverExplorerData = {
-    version = "0.3.0",
+    version = "0.4.0",
     faction = "Alliance",
     maxLevel = 60,
+    zones = {
+        { name = "Forêt d'Elwynn", level = "1–10", note = "Zone de départ humaine." },
+        { name = "Dun Morogh", level = "1–10", note = "Zone de départ naine et gnome." },
+        { name = "Teldrassil", level = "1–10", note = "Zone de départ elfe de la nuit." },
+        { name = "Comté-de-l'Or", level = "1–10", note = "Centre de quêtes dans la Forêt d'Elwynn." },
+        { name = "Hurlevent", level = "1–20", note = "Capitale, entraîneurs et quêtes." },
+        { name = "Marche de l'Ouest", level = "10–20", note = "Progression Alliance classique ; vérifie les quêtes disponibles." },
+        { name = "Loch Modan", level = "10–20", note = "Zone de progression naine et gnome." },
+        { name = "Les Paluns", level = "20–30", note = "Niveaux et accès à confirmer selon le serveur." },
+        { name = "Contreforts de Hautebrande", level = "20–30", note = "Vérifie les ennemis et les prérequis en jeu." },
+        { name = "Forêt des Pins-Argentés", level = "20–30", note = "Zone principalement Horde ; répertoriée pour repérer les frontières de faction." },
+        { name = "Hautes-terres Arathies", level = "30–40", uncertain = true, note = "Données indicatives au-delà du niveau 30." },
+        { name = "Strangleronce", level = "30–45", uncertain = true, note = "Données indicatives au-delà du niveau 30." },
+        { name = "Terres foudroyées", level = "45–55", uncertain = true, note = "Données indicatives au-delà du niveau 30." },
+        { name = "Maleterres de l'Ouest", level = "51–60", uncertain = true, note = "Données indicatives au-delà du niveau 30." },
+        { name = "Maleterres de l'Est", level = "53–60", uncertain = true, note = "Données indicatives au-delà du niveau 30." },
+        { name = "Steppes ardentes", level = "50–60", uncertain = true, note = "Données indicatives au-delà du niveau 30." },
+        { name = "Gorge des Vents brûlants", level = "43–50", uncertain = true, note = "Données indicatives au-delà du niveau 30." },
+        { name = "Berceau-de-l'Hiver", level = "55–60", uncertain = true, note = "Données indicatives au-delà du niveau 30." }
+    },
     steps = {
         { level = 1, zone = "Forêt d'Elwynn", title = "Premiers pas à Comté-de-l'Or", detail = "Prends les quêtes disponibles à Comté-de-l'Or et termine les objectifs proches. Vérifie les prérequis sur le serveur." },
         { level = 4, zone = "Forêt d'Elwynn", title = "Garrick Padfoot et les kobolds", detail = "Fais les quêtes de début de zone et élimine les ennemis autour des routes et mines accessibles." },

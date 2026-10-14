@@ -2,21 +2,16 @@
 
 Addon d'aide au leveling pour **WoW Forever**, client `1.60.1.70374` / interface `16001`.
 
-## État du projet
-
-- Addon Lua avec progression sauvegardée côté jeu via `ForeverExplorerDB`
-- Guide Alliance de départ, donjons, métiers, astuces et exploration
-- Mise à jour des fichiers publiés depuis ce dépôt avec le script PowerShell
-- Les données non vérifiées sur le serveur sont explicitement indiquées comme indicatives
-
 ## Mise à jour sous Windows
 
 1. Ferme WoW.
 2. Ouvre PowerShell.
-3. Exécute cette commande (adapte le chemin si ton dossier de jeu est différent) :
+3. Copie-colle ces lignes (adapte le chemin si ton dossier de jeu est différent) :
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\updater\Update-ForeverExplorer.ps1 -AddonPath "C:\Program Files (x86)\World of Warcraft\_classic_beta_\Interface\AddOns\ForeverExplorer"
+$updater = Join-Path $env:TEMP "Update-ForeverExplorer.ps1"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/nightlessgamer-tech/ForeverExplorer/main/updater/Update-ForeverExplorer.ps1" -OutFile $updater
+powershell -ExecutionPolicy Bypass -File $updater -AddonPath "C:\Program Files (x86)\World of Warcraft\_classic_beta_\Interface\AddOns\ForeverExplorer"
 ```
 
 Le script sauvegarde les fichiers de l'addon qu'il remplace dans un dossier voisin daté. Il ne touche pas aux SavedVariables du jeu : ta progression reste gérée par WoW.

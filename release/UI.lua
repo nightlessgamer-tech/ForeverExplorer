@@ -22,7 +22,7 @@ function FE:BuildUI()
 
     local title = f:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     title:SetPoint("TOPLEFT", f, "TOPLEFT", 16, -14)
-    title:SetText("Forever Explorer  |cff88ccff0.4.0|r")
+    title:SetText("Forever Explorer  |cff88ccff0.5.0|r")
 
     local close = CreateFrame("Button", nil, f, "UIPanelCloseButton")
     close:SetPoint("TOPRIGHT", f, "TOPRIGHT", -4, -4)
@@ -58,11 +58,11 @@ function FE:BuildUI()
     end
     Button("Guide", 18, 78, function() FE:SetView("guide") end)
     Button("Zones", 102, 78, function() FE:SetView("zones") end)
-    Button("Précédent", 186, 82, function() FE:SetStepIndex(FE:GetStepIndex() - 1) end)
+    Button("Précédent", 186, 82, function() if FE.view == "zones" then FE:MoveZoneSelection(-1) else FE:SetStepIndex(FE:GetStepIndex() - 1) end end)
     Button("Terminé", 274, 78, function()
         if FE.view == "zones" then FE:MarkCurrentZoneDone() else FE:MarkDone() end
     end)
-    Button("Suivant", 358, 78, function() FE:SetStepIndex(FE:GetStepIndex() + 1) end)
+    Button("Suivant", 358, 78, function() if FE.view == "zones" then FE:MoveZoneSelection(1) else FE:SetStepIndex(FE:GetStepIndex() + 1) end end)
     Button("Statut", 442, 78, function() FE:ShowStatus() end)
 
     if f.SetResizable and f.StartSizing then
@@ -91,20 +91,27 @@ function FE:Refresh()
         if self.searchBox then self.searchBox:Show() end
         local query = self.searchBox and string.lower(self.searchBox:GetText() or "") or ""
         local zones = (ForeverExplorerData and ForeverExplorerData.zones) or {}
-        local lines = { "EXPLORATEUR DES ZONES — ALLIANCE", "Recherche : tape le nom d'une zone. Sélectionne un résultat avec la recherche, puis « Terminé » pour basculer son état.", "" }
-        local count, firstMatch = 0, nil
+        local lines = { "EXPLORATEUR DES ZONES — ALLIANCE", "Recherche : tape le nom d'une zone. Utilise Précédent/Suivant pour sélectionner une zone, puis « Terminé » pour basculer son état.", "" }
+        local matches = {}
         for _, zone in ipairs(zones) do
-            if query == "" or string.find(string.lower(zone.name), query, 1, true) then
-                count = count + 1
-                if not firstMatch then firstMatch = zone.name end
+            if query == "" or string.find(string.lower(zone.name), query, 1, true) then matches[#matches + 1] = zone end
+        end
+        if #matches == 0 then
+            self.currentZoneName = nil
+            lines[#lines + 1] = "Aucune zone ne correspond à cette recherche."
+        else
+            local selected = 1
+            for i, zone in ipairs(matches) do if zone.name == self.currentZoneName then selected = i; break end end
+            self.currentZoneName = matches[selected].name
+            lines[#lines + 1] = string.format("Résultat sélectionné : %d/%d (Précédent/Suivant pour changer)", selected, #matches)
+            for i, zone in ipairs(matches) do
                 local state = db.exploredZones[zone.name] and "|cff55dd88[EXPLORÉE]|r" or "[à explorer]"
+                local marker = i == selected and ">> " or "   "
                 local certainty = zone.uncertain and " — indicatif, à confirmer" or ""
-                lines[#lines + 1] = string.format("%s  Niv. %s  %s%s", state, zone.level, zone.name, certainty)
-                if zone.note and zone.note ~= "" then lines[#lines + 1] = "   " .. zone.note end
+                lines[#lines + 1] = string.format("%s%s  Niv. %s  %s%s", marker, state, zone.level, zone.name, certainty)
+                if zone.name == self.currentZoneName and zone.note and zone.note ~= "" then lines[#lines + 1] = "   " .. zone.note end
             end
         end
-        self.currentZoneName = firstMatch
-        if count == 0 then lines[#lines + 1] = "Aucune zone ne correspond à cette recherche." end
         lines[#lines + 1] = ""
         lines[#lines + 1] = "Zones explorées : " .. (function()
             local n = 0
